@@ -1,0 +1,68 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: TrellisSchema
+type: object
+properties:
+  $schema:
+    type: string
+  name:
+    type: string
+  nodes:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        properties:
+          type: object
+          description: Standard JSON Schema property definitions.
+          additionalProperties:
+            type: object
+        required:
+          type: array
+          items:
+            type: string
+        uniqueKeys:
+          type: array
+          description: Array of unique keys representing semantic uniqueness constraints (supports composite keys).
+          items:
+            type: array
+            items:
+              type: string
+      required:
+        - properties
+  connectors:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        properties:
+          type: object
+          description: Standard JSON Schema property definitions.
+          additionalProperties:
+            type: object
+        required:
+          type: array
+          items:
+            type: string
+        connections:
+          type: array
+          items:
+            type: object
+            properties:
+              from:
+                type: string
+              to:
+                type: string
+              cardinality:
+                type: string
+                pattern: ^(\*|\+|\?|\d+|\d+\.\.(\d+|\\*))$
+            required:
+              - from
+              - to
+              - cardinality
+            additionalProperties: false
+      required:
+        - connections
+required:
+  - name
+  - nodes
+  - connectors
