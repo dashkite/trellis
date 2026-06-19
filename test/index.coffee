@@ -46,6 +46,8 @@ do ->
       assert.equal 0, result.errors.length
 
     test "from prompts", await do ->
+      specs = new Set
+
       # 1. Run all generation prompts in parallel
       generationNames = ( Object.keys prompts.generation )
       generationPromises = for name in generationNames
@@ -69,6 +71,9 @@ do ->
           generationTests.push test name,
             if spec?
               ->
+                serialized = ( JSON.stringify spec )
+                ( assert ! ( specs.has serialized ) )
+                ( specs.add serialized )
                 result = ( validate spec )
                 assert.equal 0, result.errors.length
 
@@ -95,6 +100,9 @@ do ->
           updateTests.push test name,
             if spec?
               ->
+                serialized = ( JSON.stringify spec )
+                ( assert ! ( specs.has serialized ) )
+                ( specs.add serialized )
                 result = ( validate spec )
                 assert.equal 0, result.errors.length
 
