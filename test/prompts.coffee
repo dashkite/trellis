@@ -5,19 +5,21 @@ import scenarios from "./scenario"
 Prompts =
 
   "generate specification": ( requirements ) ->
-    schemaYaml = ( yaml.dump schema )
-    exampleYaml = ( yaml.dump scenarios["valid spec"] )
+    definition =
+      yaml.dump schema
+    example =
+      yaml.dump scenarios[ "valid spec" ]
     """
     You are an expert system designer. Your task is to generate a graph schema in the new "Trellis" format.
 
     Here is the Trellis YAML schema specification that defines the structure:
     ---
-    #{schemaYaml}
+    #{definition}
     ---
 
     Here is an example of a valid Trellis specification:
     ---
-    #{exampleYaml}
+    #{example}
     ---
 
     Now, generate a valid Trellis specification from the following requirements:
@@ -30,20 +32,22 @@ Prompts =
     Try to generate your response as promptly as possible.
     """
 
-  "update specification": ( currentSpec, requirements ) ->
-    schemaYaml = ( yaml.dump schema )
-    currentYaml = ( yaml.dump currentSpec )
+  "update specification": ( specification, requirements ) ->
+    definition =
+      yaml.dump schema
+    current =
+      yaml.dump specification
     """
     You are an expert system designer. Your task is to update a graph schema in the "Trellis" format based on new requirements.
 
     Here is the Trellis YAML schema specification that defines the structure:
     ---
-    #{schemaYaml}
+    #{definition}
     ---
 
     Here is the current Trellis specification:
     ---
-    #{currentYaml}
+    #{current}
     ---
 
     Now, update the Trellis specification based on the following requirements:

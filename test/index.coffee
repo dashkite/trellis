@@ -42,73 +42,65 @@ do ->
         "undefined property 'email'." )
 
     test "from a predefined test case", ->
-      result = ( validate scenarios["experiment spec"])
-      assert.equal 0, result.errors.length
+      result = ( validate scenarios["experiment spec"] )
+      ( assert.equal 0, result.errors.length )
 
     test "from prompts", await do ->
-      specs = new Set
+      specifications = new Set
 
-      # 1. Run all generation prompts in parallel
-      generationNames = ( Object.keys prompts.generation )
-      generationPromises = for name in generationNames
-        item = prompts.generation[name]
-        promptText =
-          ( Prompts["generate specification"] item.requirements )
-        executePrompt promptText
+      generate = ( items ) ->
+        names = ( Object.keys items )
+        promises = for name in names
+          prompt =
+            Prompts[ "generate specification" ] items[ name ].requirements
+          ( executePrompt prompt )
+        results = await ( Promise.all promises )
+        registry = {}
+        for specification, i in results
+          if specification?
+            registry[ names[ i ]] = specification
+        registry
 
-      generatedResults = await Promise.all generationPromises
+      update = ( items, base ) ->
+        names = ( Object.keys items )
+        promises = for name in names
+          item = items[ name ]
+          specification =
+            base[ item.source ] || scenarios[ item.source ]
+          if specification?
+            prompt =
+              Prompts[ "update specification" ] specification,
+                item.requirements
+            ( executePrompt prompt )
+          else
+            ( Promise.resolve null )
+        results = await ( Promise.all promises )
+        registry = {}
+        for specification, i in results
+          if specification?
+            registry[ names[ i ]] = specification
+        registry
 
-      # Store generated specs by name to build updates off them
-      generatedSpecs = {}
-      generationTests = []
-      for spec, i in generatedResults
-        name = generationNames[i]
-        if spec?
-          generatedSpecs[name] = spec
+      build = ( items, registry ) ->
+        for name, item of items
+          specification =
+            registry[ name ]
+          do ( name, specification ) ->
+            test name,
+              if specification?
+                ->
+                  serialized = ( JSON.stringify specification )
+                  ( assert ! ( specifications.has serialized ))
+                  ( specifications.add serialized )
+                  result = ( validate specification )
+                  ( assert.equal 0, result.errors.length )
 
-        # Push the generation test (will be pending/skipped if spec is null)
-        do ( name, spec ) ->
-          generationTests.push test name,
-            if spec?
-              ->
-                serialized = ( JSON.stringify spec )
-                ( assert ! ( specs.has serialized ) )
-                ( specs.add serialized )
-                result = ( validate spec )
-                assert.equal 0, result.errors.length
-
-      # 2. Run all update prompts in parallel
-      updateNames = ( Object.keys prompts.update )
-      updatePromises = for name in updateNames
-        item = prompts.update[name]
-        sourceSpec =
-          generatedSpecs[item.source] || scenarios[item.source]
-        if sourceSpec?
-          promptText = ( Prompts["update specification"] sourceSpec,
-            item.requirements )
-          executePrompt promptText
-        else
-          Promise.resolve null
-
-      updatedResults = await Promise.all updatePromises
-
-      # Push the update tests (will be pending/skipped if spec is null)
-      updateTests = []
-      for spec, i in updatedResults
-        name = updateNames[i]
-        do ( name, spec ) ->
-          updateTests.push test name,
-            if spec?
-              ->
-                serialized = ( JSON.stringify spec )
-                ( assert ! ( specs.has serialized ) )
-                ( specs.add serialized )
-                result = ( validate spec )
-                assert.equal 0, result.errors.length
+      base = await ( generate prompts.generation )
+      updated = await ( update prompts.update, base )
 
       [
-        test "generated", generationTests
-        test "updated", updateTests
+        test "generated", ( build prompts.generation, base )
+        test "updated", ( build prompts.update, updated )
       ]
 
   ]
