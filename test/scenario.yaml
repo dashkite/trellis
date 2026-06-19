@@ -58,3 +58,59 @@
         id: { type: string }
       required: [email]
   connectors: {}
+
+"experiment spec":
+  name: blog-management
+  nodes:
+    blog:
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+      required: [id, name]
+      uniqueKeys: [[name]]
+    post:
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        content: { type: string }
+      required: [id, title, content]
+    author:
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
+      required: [id, name, email]
+      uniqueKeys: [[email]]
+    editor:
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
+      required: [id, name, email]
+      uniqueKeys: [[email]]
+  connectors:
+    has-post:
+      connections:
+        - from: blog
+          to: post
+          cardinality: "1..*"
+    has-author:
+      connections:
+        - from: blog
+          to: author
+          cardinality: "*..*"
+    has-editor:
+      connections:
+        - from: blog
+          to: editor
+          cardinality: "*..*"
+    author-of:
+      connections:
+        - from: author
+          to: post
+          cardinality: "1..*"
+    editor-of:
+      connections:
+        - from: editor
+          to: post
+          cardinality: "*..*"

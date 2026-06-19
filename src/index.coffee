@@ -79,4 +79,4 @@ class Validator extends ( metaclass() )
 validate = ( specification ) ->
   Validator.apply specification
 
-export { validate, Validator }
+export { validate, Validator, schema }
