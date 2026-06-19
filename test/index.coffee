@@ -3,8 +3,8 @@ import { test } from "@dashkite/amen"
 import print from "@dashkite/amen-console"
 import { validate } from "../src"
 import scenarios from "./scenario"
-import prompts from "./prompt-scenarios"
-import Prompts from "./prompts"
+import prompts from "./prompt/scenarios"
+import Prompts from "./prompt"
 import { executePrompt } from "./helper"
 
 do ->

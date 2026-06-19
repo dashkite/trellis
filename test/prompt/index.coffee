@@ -1,6 +1,6 @@
 import yaml from "js-yaml"
-import { schema } from "../src"
-import scenarios from "./scenario"
+import { schema } from "../../src"
+import scenarios from "../scenario"
 
 Prompts =
 
