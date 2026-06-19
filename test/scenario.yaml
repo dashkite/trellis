@@ -6,7 +6,7 @@
         id: { type: string }
         email: { type: string }
       required: [id, email]
-      uniqueKeys: [[email]]
+      keys: [[email]]
     post:
       properties:
         title: { type: string }
@@ -47,7 +47,7 @@
     author:
       properties:
         id: { type: string }
-      uniqueKeys: [[email]]
+      keys: [[email]]
   connectors: {}
 
 "invalid required":
@@ -67,7 +67,7 @@
         id: { type: string, format: uuid }
         name: { type: string }
       required: [id, name]
-      uniqueKeys: [[name]]
+      keys: [[name]]
     post:
       properties:
         id: { type: string, format: uuid }
@@ -80,14 +80,14 @@
         name: { type: string }
         email: { type: string, format: email }
       required: [id, name, email]
-      uniqueKeys: [[email]]
+      keys: [[email]]
     editor:
       properties:
         id: { type: string, format: uuid }
         name: { type: string }
         email: { type: string, format: email }
       required: [id, name, email]
-      uniqueKeys: [[email]]
+      keys: [[email]]
   connectors:
     has-post:
       connections:

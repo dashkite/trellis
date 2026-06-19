@@ -51,11 +51,11 @@ class Validator extends ( metaclass() )
           if ! ( has node.properties, property )
             @errors.push "Node '#{name}' requires " +
               "undefined property '#{property}'."
-      if node.uniqueKeys?
-        for keyGroup in node.uniqueKeys
+      if node.keys?
+        for keyGroup in node.keys
           for property in keyGroup
             if ! ( has node.properties, property )
-              @errors.push "Node '#{name}' unique key references " +
+              @errors.push "Node '#{name}' key references " +
                 "undefined property '#{property}'."
 
   connectors: ->

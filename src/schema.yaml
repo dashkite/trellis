@@ -20,7 +20,7 @@ properties:
           type: array
           items:
             type: string
-        uniqueKeys:
+        keys:
           type: array
           description: Array of unique keys representing semantic uniqueness constraints (supports composite keys).
           items:

@@ -1,0 +1,144 @@
+generation:
+  "blog-platform":
+    requirements: "A blog platform tracks blogs, posts, authors, and editors. A blog has an ID and name. Only authors may add posts, at which point they are the author of that post. The author of a post may edit or remove that post. An editor may update posts, but never add or remove them."
+
+  "ecommerce-fulfillment":
+    requirements: "An e-commerce system tracks customers, orders, products, and shipments. A customer has an ID, name, and email (unique). An order has an ID and order date. A product has an ID, SKU (unique), name, and price. A shipment has an ID, tracking number, and delivery status. Customers place orders. Orders are connected to the products they contain. Shipments connect to the orders they fulfill, allowing an order to be split across multiple shipments, and a shipment to group multiple orders."
+
+  "iam-system":
+    requirements: "An identity and access management system tracks users, groups, roles, and resources. A user has a username (unique), full name, and email. A group has a name (unique) and description. A role has a name (unique) and category. A resource has a path (unique) and description. Users can belong to multiple groups. Roles can be assigned directly to users or to groups. A role defines access permissions to resources."
+
+  "task-board":
+    requirements: "A task board system tracks users, tasks, columns, and projects. A user has an ID and name. A task has an ID, title, and description. A column has a name (unique per board) and order index. A project has an ID and title. Users are assigned to tasks. Tasks belong to a column. Columns belong to projects. Tasks can have parent-child subtask relationships."
+
+  "hospital-management":
+    requirements: "A hospital management system tracks patients, doctors, appointments, and prescriptions. A patient has an SSN (unique), name, and date of birth. A doctor has an employee ID (unique) and specialty. An appointment has a date, time, and room number. A prescription has a dosage and duration. Patients schedule appointments with doctors. Doctors write prescriptions for patients."
+
+  "library-catalog":
+    requirements: "A library system tracks books, authors, members, and loans. A book has an ISBN (unique), title, and publication year. An author has an ID and name. A member has a card number (unique), name, and membership status. A loan has a borrow date and due date. Books are written by authors. Members borrow books, which creates a loan record."
+
+  "social-network":
+    requirements: "A social network tracks users, posts, and comments. A user has a handle (unique), display name, and bio. A post has an ID, content, and timestamp. A comment has an ID, text, and timestamp. Users can follow other users. Users author posts. Users write comments on posts. Users can like posts."
+
+  "flight-booking":
+    requirements: "A flight booking system tracks passengers, flights, airports, and reservations. A passenger has a passport number (unique) and name. A flight has a flight number (unique), departure time, and arrival time. An airport has a 3-letter code (unique) and city. A reservation has a seat number. Passengers make reservations on flights. Flights depart from and arrive at airports."
+
+  "smart-home":
+    requirements: "A smart home system tracks devices, rooms, and automation rules. A device has a MAC address (unique), type, and status. A room has a name (unique) and floor. An automation rule has a name (unique) and trigger condition. Devices are installed in rooms. Automation rules control devices based on triggers."
+
+  "university-portal":
+    requirements: "A university portal tracks students, professors, courses, and enrollments. A student has a student ID (unique) and major. A professor has a staff ID (unique) and department. A course has a code (unique) and title. An enrollment has a grade. Students enroll in courses. Professors teach courses."
+
+  "ride-sharing":
+    requirements: "A ride-sharing system tracks riders, drivers, vehicles, and rides. A rider has an ID and rating. A driver has a license number (unique) and rating. A vehicle has a license plate (unique) and model. A ride has a pickup location, destination, and fare. Riders request rides. Drivers accept rides using their vehicles."
+
+  "hotel-reservation":
+    requirements: "A hotel reservation system tracks guests, rooms, bookings, and hotels. A guest has a passport number (unique) and name. A room has a room number (unique per hotel) and price. A booking has a check-in and check-out date. A hotel has a name and location. Hotels have rooms. Guests make bookings for rooms in hotels."
+
+  "financial-ledger":
+    requirements: "A financial ledger tracks accounts, transactions, and budgets. An account has an account number (unique) and balance. A transaction has an ID, amount, and timestamp. A budget has a category (unique) and limit. Accounts initiate transactions. Transactions are categorized under budgets."
+
+  "movie-database":
+    requirements: "A movie database tracks movies, actors, directors, and reviews. A movie has a title, release year, and director. An actor has an ID and name. A director has an ID and name. A review has a rating and text. Movies are directed by directors. Actors star in movies. Users write reviews for movies."
+
+  "inventory-warehouse":
+    requirements: "An inventory system tracks warehouses, items, and stock transfers. A warehouse has a code (unique) and address. An item has a SKU (unique) and description. A stock transfer has a transfer ID and quantity. Items are stored in warehouses. Stock transfers move items from a source warehouse to a destination warehouse."
+
+  "fitness-tracker":
+    requirements: "A fitness tracker tracks users, workouts, and exercises. A user has a username (unique) and weight. A workout has a date and duration. An exercise has a name (unique) and muscle group. Users perform workouts. Workouts consist of exercises with reps and sets."
+
+  "car-rental":
+    requirements: "A car rental system tracks customers, cars, and rentals. A customer has a driver's license (unique) and name. A car has a VIN (unique) and status. A rental has a start date, end date, and cost. Customers book rentals. Rentals are associated with specific cars."
+
+  "music-streaming":
+    requirements: "A music streaming system tracks users, tracks, playlists, and artists. A user has an email (unique) and display name. A track has an ID and title. A playlist has a name and description. An artist has an ID and name. Artists release tracks. Users create playlists containing tracks. Users follow artists."
+
+  "restaurant-pos":
+    requirements: "A restaurant POS system tracks tables, orders, menu items, and waitstaff. A table has a table number (unique). An order has a ticket number and total. A menu item has a name (unique) and price. A member of waitstaff has an ID and name. Waitstaff serve tables and take orders. Orders contain menu items."
+
+  "bug-tracker":
+    requirements: "A bug tracker tracks projects, tickets, developers, and releases. A project has a key (unique) and name. A ticket has a ticket ID (unique) and status. A developer has an email (unique) and role. A release has a version (unique) and date. Projects contain tickets. Developers are assigned to tickets. Tickets are scheduled for releases."
+
+  "real-estate":
+    requirements: "A real estate system tracks properties, agents, clients, and offers. A property has an address (unique) and price. An agent has a license number (unique) and name. A client has an email (unique) and phone. An offer has an amount and date. Agents list properties. Clients make offers on properties through agents."
+
+update:
+  "blog-tags":
+    source: "blog-platform"
+    requirements: "Add a new node called 'tag' with a 'name' property of type string. The 'name' property is required. Ensure 'name' is unique. Add a connector from post to tag called 'tagged' with cardinality '*..*'."
+
+  "blog-comments":
+    source: "blog-platform"
+    requirements: "Add support for comments to the blog management system. Create a 'comment' node with properties 'id' (uuid, required), 'body' (string, required), and 'created-at' (string, required). Add a connector 'commented-on' mapping comments to the 'post' they belong to. Add a connector 'authored-by' mapping comments to either authors or editors. Finally, allow comments to reply to other comments by adding a self-referencing connector 'reply-to'."
+
+  "blog-categories":
+    source: "blog-platform"
+    requirements: "Add a 'category' node with properties 'id' (uuid, required) and 'name' (string, required, unique). Add a connector 'categorized-under' connecting posts to categories. Also, add a connector 'parent-category' connecting a category to another category to support hierarchical categories."
+
+  "blog-drafts":
+    source: "blog-platform"
+    requirements: "Update the post node to add a required 'status' property (string) and an optional 'published-at' property (string). Create a 'revision' node with properties 'revisionId' (string, required) and 'diff' (string, required). Add a connector 'has-revision' mapping posts to revisions."
+
+  "blog-subscriptions":
+    source: "blog-platform"
+    requirements: "Add a 'reader' node with properties 'id' (uuid, required) and 'email' (string, required, unique). Add a 'newsletter' node with properties 'id' (uuid, required) and 'subject' (string, required). Add a connector 'subscribed-to' connecting readers to newsletters."
+
+  "blog-likes":
+    source: "blog-platform"
+    requirements: "Add a 'reader' node with properties 'id' (uuid, required) and 'name' (string, required). Add a connector 'likes-post' connecting readers to posts (cardinality *..*). Add an optional property 'liked-at' to the 'likes-post' connector."
+
+  "blog-media":
+    source: "blog-platform"
+    requirements: "Create a 'media' node with properties 'id' (uuid, required), 'url' (string, required), and 'type' (string, required). Add a connector 'attached-media' mapping posts to media (cardinality 0..*)."
+
+  "blog-coauthors":
+    source: "blog-platform"
+    requirements: "Modify the 'author-of' connector to change its cardinality to '*..*', allowing multiple authors per post."
+
+  "blog-analytics":
+    source: "blog-platform"
+    requirements: "Add a 'view-log' node with properties 'id' (uuid, required), 'ipAddress' (string, required), and 'timestamp' (string, required). Add a connector 'viewed-post' from view-log to post (cardinality 1..1)."
+
+  "blog-collaborators":
+    source: "blog-platform"
+    requirements: "Rename the 'author' node to 'collaborator'. Add an optional property 'permissionLevel' (string) to the 'editor' connector."
+
+  "blog-seo":
+    source: "blog-platform"
+    requirements: "Add optional properties 'metaTitle' (string) and 'metaDescription' (string) to the 'post' node."
+
+  "blog-notifications":
+    source: "blog-platform"
+    requirements: "Create a 'notification' node with properties 'id' (uuid, required) and 'message' (string, required). Add a connector 'recipient' connecting notifications to authors. Add a connector 'triggered-by' connecting notifications to posts."
+
+  "blog-moderation":
+    source: "blog-platform"
+    requirements: "Create a 'moderator' node with properties 'id' (uuid, required) and 'email' (string, required, unique). Add a connector 'moderated-by' from posts to moderators."
+
+  "blog-billing":
+    source: "blog-platform"
+    requirements: "Create a 'plan' node with properties 'id' (uuid, required), 'name' (string, required, unique), and 'price' (number, required). Add a connector 'has-plan' from author to plan."
+
+  "blog-teams":
+    source: "blog-platform"
+    requirements: "Create a 'team' node with properties 'id' (uuid, required) and 'name' (string, required, unique). Add a connector 'team-member' from author to team, and a connector 'owns-blog' from team to blog."
+
+  "blog-api-keys":
+    source: "blog-platform"
+    requirements: "Create an 'apiKey' node with properties 'id' (uuid, required), 'keyString' (string, required, unique), and 'created' (string, required). Add a connector 'owns-key' from author to apiKey."
+
+  "blog-achievements":
+    source: "blog-platform"
+    requirements: "Create a 'badge' node with properties 'id' (uuid, required) and 'title' (string, required, unique). Add a connector 'earned-badge' from author to badge."
+
+  "blog-localization":
+    source: "blog-platform"
+    requirements: "Create a 'locale' node with properties 'id' (string, required, unique) and 'language' (string, required). Add a connector 'has-locale' from post to locale."
+
+  "blog-bookmarks":
+    source: "blog-platform"
+    requirements: "Create a 'folder' node with properties 'id' (uuid, required) and 'name' (string, required). Add a connector 'user-folder' from author to folder, and a connector 'bookmarked-post' from folder to post."
+
+  "blog-audits":
+    source: "blog-platform"
+    requirements: "Create an 'audit-log' node with properties 'id' (uuid, required), 'action' (string, required), and 'timestamp' (string, required). Add a connector 'performed-by' from audit-log to editor, and a connector 'action-on' from audit-log to post."

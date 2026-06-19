@@ -1,9 +1,11 @@
 import assert from "@dashkite/assert"
 import { test } from "@dashkite/amen"
 import print from "@dashkite/amen-console"
-import { validate, schema } from "../src"
+import { validate } from "../src"
 import scenarios from "./scenario"
-import { generateSchema } from "./helper"
+import prompts from "./prompt-scenarios"
+import Prompts from "./prompts"
+import { executePrompt } from "./helper"
 
 do ->
 
@@ -25,11 +27,11 @@ do ->
       ( assert.equal result.errors[0], "Connector 'editor' references " +
         "undefined target node 'non-existent-node'." )
 
-    test "fails when uniqueKey references undefined property", ->
+    test "fails when key references undefined property", ->
       result = ( validate scenarios["invalid unique key"] )
       ( assert ! result.isValid )
       ( assert.equal result.errors.length, 1 )
-      ( assert.equal result.errors[0], "Node 'author' unique key references " +
+      ( assert.equal result.errors[0], "Node 'author' key references " +
         "undefined property 'email'." )
 
     test "fails when required references undefined property", ->
@@ -40,21 +42,66 @@ do ->
         "undefined property 'email'." )
 
     test "is able to validate real world schemas", await do ->
-
-
-      [
-
+      tests = [
         test "from a predefined test case", ->
           result = ( validate scenarios["experiment spec"])
           assert.equal 0, result.errors.length
-
-        test "from a prompt", await do ->
-          prompt = "An blog has posts, authors, and editors. Only authors may add posts, at which point they are the author of that post. The author of a post may edit or remove that post. An editor may update posts, but never add or remove them."
-          generated = await generateSchema prompt, schema, scenarios["valid spec"]
-          if generated?
-            ->
-              result = ( validate generated )
-              assert.equal 0, result.errors.length
       ]
+
+      # 1. Run all generation prompts in parallel
+      generationNames = ( Object.keys prompts.generation )
+      generationPromises = for name in generationNames
+        item = prompts.generation[name]
+        promptText =
+          ( Prompts["generate specification"] item.requirements )
+        executePrompt promptText
+
+      generatedResults = await Promise.all generationPromises
+
+      # Store generated specs by name to build updates off them
+      generatedSpecs = {}
+      for spec, i in generatedResults
+        name = generationNames[i]
+        if spec?
+          generatedSpecs[name] = spec
+
+        # Push the generation test (will be pending/skipped if spec is null)
+        do ( name, spec ) ->
+          tests.push test "generates spec: #{name}",
+            if spec?
+              ->
+                result = ( validate spec )
+                if result.errors.length > 0
+                  console.log "Validation errors in generates spec #{name}:", result.errors
+                assert.deepEqual result.errors, []
+
+      # 2. Run all update prompts in parallel
+      updateNames = ( Object.keys prompts.update )
+      updatePromises = for name in updateNames
+        item = prompts.update[name]
+        sourceSpec =
+          generatedSpecs[item.source] || scenarios[item.source]
+        if sourceSpec?
+          promptText = ( Prompts["update specification"] sourceSpec,
+            item.requirements )
+          executePrompt promptText
+        else
+          Promise.resolve null
+
+      updatedResults = await Promise.all updatePromises
+
+      # Push the update tests (will be pending/skipped if spec is null)
+      for spec, i in updatedResults
+        name = updateNames[i]
+        do ( name, spec ) ->
+          tests.push test "updates spec: #{name}",
+            if spec?
+              ->
+                result = ( validate spec )
+                if result.errors.length > 0
+                  console.log "Validation errors in updates spec #{name}:", result.errors
+                assert.deepEqual result.errors, []
+
+      tests
 
   ]
