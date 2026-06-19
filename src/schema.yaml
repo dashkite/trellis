@@ -54,7 +54,7 @@ properties:
                 type: string
               cardinality:
                 type: string
-                pattern: ^(\*|\+|\?|\d+|\d+\.\.(\d+|\\*))$
+                pattern: '^(\*|\+|\?|\d+)(\.\.(\*|\+|\?|\d+))?$'
             required:
               - from
               - to

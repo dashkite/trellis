@@ -1,0 +1,60 @@
+"valid spec":
+  name: blog-platform
+  nodes:
+    author:
+      properties:
+        id: { type: string }
+        email: { type: string }
+      required: [id, email]
+      uniqueKeys: [[email]]
+    post:
+      properties:
+        title: { type: string }
+      required: [title]
+  connectors:
+    editor:
+      properties:
+        assigned: { type: string }
+      required: [assigned]
+      connections:
+        - from: author
+          to: post
+          cardinality: "*..*"
+
+"invalid structure":
+  name: invalid
+  nodes:
+    author:
+      properties:
+        id: { type: string }
+
+"invalid node ref":
+  name: blog-platform
+  nodes:
+    author:
+      properties:
+        id: { type: string }
+  connectors:
+    editor:
+      connections:
+        - from: author
+          to: non-existent-node
+          cardinality: "*..*"
+
+"invalid unique key":
+  name: blog-platform
+  nodes:
+    author:
+      properties:
+        id: { type: string }
+      uniqueKeys: [[email]]
+  connectors: {}
+
+"invalid required":
+  name: blog-platform
+  nodes:
+    author:
+      properties:
+        id: { type: string }
+      required: [email]
+  connectors: {}

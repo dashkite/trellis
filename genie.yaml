@@ -1,0 +1,20 @@
+presets:
+  - "@dashkite/genie-yaml"
+
+coffee:
+  targets:
+    - node
+    - browser
+
+yaml:
+  targets:
+    browser:
+      - preset: js
+        glob: "src/**/*.yaml"
+      - preset: js
+        glob: "test/**/*.yaml"
+    node:
+      - preset: js
+        glob: "src/**/*.yaml"
+      - preset: js
+        glob: "test/**/*.yaml"
