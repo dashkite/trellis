@@ -103,42 +103,42 @@ update:
     source: "blog-platform"
     requirements: "Rename the 'author' node to 'collaborator'. Add an optional property 'permissionLevel' (string) to the 'editor' connector."
 
-  "blog-seo":
-    source: "blog-platform"
-    requirements: "Add optional properties 'metaTitle' (string) and 'metaDescription' (string) to the 'post' node."
+  "ecommerce-seo":
+    source: "ecommerce-fulfillment"
+    requirements: "Add optional properties 'metaTitle' (string) and 'metaDescription' (string) to the 'product' node."
 
-  "blog-notifications":
-    source: "blog-platform"
-    requirements: "Create a 'notification' node with properties 'id' (uuid, required) and 'message' (string, required). Add a connector 'recipient' connecting notifications to authors. Add a connector 'triggered-by' connecting notifications to posts."
+  "task-notifications":
+    source: "task-board"
+    requirements: "Create a 'notification' node with properties 'id' (uuid, required) and 'message' (string, required). Add a connector 'recipient' connecting notifications to users. Add a connector 'triggered-by' connecting notifications to tasks."
 
-  "blog-moderation":
-    source: "blog-platform"
+  "social-moderation":
+    source: "social-network"
     requirements: "Create a 'moderator' node with properties 'id' (uuid, required) and 'email' (string, required, unique). Add a connector 'moderated-by' from posts to moderators."
 
-  "blog-billing":
-    source: "blog-platform"
-    requirements: "Create a 'plan' node with properties 'id' (uuid, required), 'name' (string, required, unique), and 'price' (number, required). Add a connector 'has-plan' from author to plan."
+  "ride-billing":
+    source: "ride-sharing"
+    requirements: "Create a 'payment-method' node with properties 'id' (uuid, required), 'type' (string, required), and 'details' (string, required). Add a connector 'has-payment' from riders to payment-method."
 
-  "blog-teams":
-    source: "blog-platform"
-    requirements: "Create a 'team' node with properties 'id' (uuid, required) and 'name' (string, required, unique). Add a connector 'team-member' from author to team, and a connector 'owns-blog' from team to blog."
+  "hospital-insurance":
+    source: "hospital-management"
+    requirements: "Create an 'insurance-provider' node with properties 'id' (uuid, required), 'providerName' (string, required, unique), and 'policyNumber' (string, required). Add a connector 'insured-by' from patients to insurance-provider."
 
-  "blog-api-keys":
-    source: "blog-platform"
-    requirements: "Create an 'apiKey' node with properties 'id' (uuid, required), 'keyString' (string, required, unique), and 'created' (string, required). Add a connector 'owns-key' from author to apiKey."
+  "ledger-api-keys":
+    source: "financial-ledger"
+    requirements: "Create an 'apiKey' node with properties 'id' (uuid, required), 'keyString' (string, required, unique), and 'created' (string, required). Add a connector 'auth-key' from accounts to apiKey."
 
-  "blog-achievements":
-    source: "blog-platform"
-    requirements: "Create a 'badge' node with properties 'id' (uuid, required) and 'title' (string, required, unique). Add a connector 'earned-badge' from author to badge."
+  "fitness-achievements":
+    source: "fitness-tracker"
+    requirements: "Create a 'badge' node with properties 'id' (uuid, required) and 'title' (string, required, unique). Add a connector 'earned-badge' from users to badge."
 
-  "blog-localization":
-    source: "blog-platform"
-    requirements: "Create a 'locale' node with properties 'id' (string, required, unique) and 'language' (string, required). Add a connector 'has-locale' from post to locale."
+  "movie-localization":
+    source: "movie-database"
+    requirements: "Create a 'locale' node with properties 'id' (string, required, unique) and 'language' (string, required). Add a connector 'has-locale' from movies to locale."
 
-  "blog-bookmarks":
-    source: "blog-platform"
-    requirements: "Create a 'folder' node with properties 'id' (uuid, required) and 'name' (string, required). Add a connector 'user-folder' from author to folder, and a connector 'bookmarked-post' from folder to post."
+  "music-bookmarks":
+    source: "music-streaming"
+    requirements: "Create a 'folder' node with properties 'id' (uuid, required) and 'name' (string, required). Add a connector 'user-folder' from users to folder, and a connector 'bookmarked-track' from folder to tracks."
 
-  "blog-audits":
-    source: "blog-platform"
-    requirements: "Create an 'audit-log' node with properties 'id' (uuid, required), 'action' (string, required), and 'timestamp' (string, required). Add a connector 'performed-by' from audit-log to editor, and a connector 'action-on' from audit-log to post."
+  "library-audits":
+    source: "library-catalog"
+    requirements: "Create an 'audit-log' node with properties 'id' (uuid, required), 'action' (string, required), and 'timestamp' (string, required). Add a connector 'performed-by' from audit-log to members, and a connector 'action-on' from audit-log to books."
