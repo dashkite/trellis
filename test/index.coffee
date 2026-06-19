@@ -13,7 +13,7 @@ do ->
 
     test "validates a valid specification", ->
       result = ( validate scenarios["valid spec"] )
-      ( assert.deepEqual result.errors, [] )
+      ( assert.equal 0, result.errors.length )
 
     test "fails on invalid structure", ->
       result = ( validate scenarios["invalid structure"] )
@@ -41,13 +41,11 @@ do ->
       ( assert.equal result.errors[0], "Node 'author' requires " +
         "undefined property 'email'." )
 
-    test "is able to validate real world schemas", await do ->
-      tests = [
-        test "from a predefined test case", ->
-          result = ( validate scenarios["experiment spec"])
-          assert.equal 0, result.errors.length
-      ]
+    test "from a predefined test case", ->
+      result = ( validate scenarios["experiment spec"])
+      assert.equal 0, result.errors.length
 
+    test "from prompts", await do ->
       # 1. Run all generation prompts in parallel
       generationNames = ( Object.keys prompts.generation )
       generationPromises = for name in generationNames
@@ -60,6 +58,7 @@ do ->
 
       # Store generated specs by name to build updates off them
       generatedSpecs = {}
+      generationTests = []
       for spec, i in generatedResults
         name = generationNames[i]
         if spec?
@@ -67,13 +66,11 @@ do ->
 
         # Push the generation test (will be pending/skipped if spec is null)
         do ( name, spec ) ->
-          tests.push test "generates spec: #{name}",
+          generationTests.push test name,
             if spec?
               ->
                 result = ( validate spec )
-                if result.errors.length > 0
-                  console.log "Validation errors in generates spec #{name}:", result.errors
-                assert.deepEqual result.errors, []
+                assert.equal 0, result.errors.length
 
       # 2. Run all update prompts in parallel
       updateNames = ( Object.keys prompts.update )
@@ -91,17 +88,19 @@ do ->
       updatedResults = await Promise.all updatePromises
 
       # Push the update tests (will be pending/skipped if spec is null)
+      updateTests = []
       for spec, i in updatedResults
         name = updateNames[i]
         do ( name, spec ) ->
-          tests.push test "updates spec: #{name}",
+          updateTests.push test name,
             if spec?
               ->
                 result = ( validate spec )
-                if result.errors.length > 0
-                  console.log "Validation errors in updates spec #{name}:", result.errors
-                assert.deepEqual result.errors, []
+                assert.equal 0, result.errors.length
 
-      tests
+      [
+        test "generated", generationTests
+        test "updated", updateTests
+      ]
 
   ]
