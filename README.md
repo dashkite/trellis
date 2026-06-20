@@ -30,7 +30,7 @@ npx trellis validate spec.yaml
 npx trellis document spec.yaml
 ```
 
-### JavaScript/CoffeeScript API
+### API
 
 ```coffee
 import { validate, document } from "@dashkite/trellis"
