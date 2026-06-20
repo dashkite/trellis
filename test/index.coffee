@@ -1,7 +1,7 @@
 import assert from "@dashkite/assert"
 import { test } from "@dashkite/amen"
 import print from "@dashkite/amen-console"
-import { validate } from "../src"
+import { validate, document } from "../src"
 import scenarios from "./scenario"
 
 do ->
@@ -41,5 +41,17 @@ do ->
     test "from a predefined test case", ->
       result = ( validate scenarios["experiment spec"] )
       ( assert.equal 0, result.errors.length )
+
+    test "generates markdown documentation for a valid specification", ->
+      markdown = ( document scenarios["valid spec"] )
+      ( assert.equal true, ( markdown.includes "# Blog Platform" ) )
+      ( assert.equal true, ( markdown.includes "### author" ) )
+      expectedTable =
+        "| `email` | `string` | Yes |"
+      ( assert.equal true, ( markdown.includes expectedTable ) )
+      ( assert.equal true, ( markdown.includes "### editor" ) )
+      expectedConnection =
+        "Connects **author** to **post** with cardinality `*..*`."
+      ( assert.equal true, ( markdown.includes expectedConnection ) )
 
   ]

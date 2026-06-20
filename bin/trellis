@@ -1,0 +1,2 @@
+#!/usr/bin/env node --enable-source-maps
+require("../build/node/src/cli.js");

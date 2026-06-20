@@ -2,6 +2,8 @@ import { metaclass } from "@dashkite/joy"
 import Ajv from "ajv"
 import yaml from "js-yaml"
 import schema from "./schema"
+import { document } from "./document"
+
 
 ajv = new Ajv
 
@@ -79,4 +81,4 @@ class Validator extends ( metaclass() )
 validate = ( specification ) ->
   Validator.apply specification
 
-export { validate, Validator, schema }
+export { validate, Validator, schema, document }
