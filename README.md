@@ -6,11 +6,7 @@
 
 ## Purpose
 
-Trellis provides a highly structured and normalized format for describing graph
-schemas. It is designed to be easily processed by Large Language Models (LLMs)
-and supports deterministic translation to natural language or documentation. By
-defining nodes, properties, and connectors with explicit constraints, Trellis
-ensures consistency in knowledge models.
+Trellis provides a highly structured and normalized format for describing graph schemas. It is designed to be easily processed by Large Language Models (LLMs) and supports deterministic translation to natural language or documentation. By defining nodes, properties, and connectors with explicit constraints, Trellis ensures consistency in knowledge models.
 
 ## Installation
 
@@ -58,5 +54,4 @@ console.log markdown
 
 ## Status
 
-Trellis is under active development and is not yet suitable for production
-use. Please report any bugs or request features on the issue tracker.
+Trellis is under active development and is not yet suitable for production use. Please report any bugs or request features on the issue tracker.

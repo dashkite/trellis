@@ -4,9 +4,7 @@
 
 $validate: specification \to result$
 
-Validates a Trellis specification object or YAML string. It compiles the
-specification against the Trellis JSON schema and verifies connection, key,
-and required property constraints.
+Validates a Trellis specification object or YAML string. It compiles the specification against the Trellis JSON schema and verifies connection, key, and required property constraints.
 
 ### Example
 
@@ -22,8 +20,7 @@ assert.equal result.isValid, true
 
 $document: specification \to markdown$
 
-Generates a clean and deterministic Markdown document that describes the
-Trellis specification.
+Generates a clean and deterministic Markdown document that describes the Trellis specification.
 
 ### Example
 
