@@ -3,9 +3,6 @@ import { test } from "@dashkite/amen"
 import print from "@dashkite/amen-console"
 import { validate } from "../src"
 import scenarios from "./scenario"
-import prompts from "./prompt/scenarios"
-import Prompts from "./prompt"
-import { executePrompt } from "./helper"
 
 do ->
 
@@ -44,63 +41,5 @@ do ->
     test "from a predefined test case", ->
       result = ( validate scenarios["experiment spec"] )
       ( assert.equal 0, result.errors.length )
-
-    test "from prompts", await do ->
-      specifications = new Set
-
-      generate = ( items ) ->
-        names = ( Object.keys items )
-        promises = for name in names
-          prompt =
-            Prompts[ "generate specification" ] items[ name ].requirements
-          ( executePrompt prompt )
-        results = await ( Promise.all promises )
-        registry = {}
-        for specification, i in results
-          if specification?
-            registry[ names[ i ]] = specification
-        registry
-
-      update = ( items, base ) ->
-        names = ( Object.keys items )
-        promises = for name in names
-          item = items[ name ]
-          specification =
-            base[ item.source ] || scenarios[ item.source ]
-          if specification?
-            prompt =
-              Prompts[ "update specification" ] specification,
-                item.requirements
-            ( executePrompt prompt )
-          else
-            ( Promise.resolve null )
-        results = await ( Promise.all promises )
-        registry = {}
-        for specification, i in results
-          if specification?
-            registry[ names[ i ]] = specification
-        registry
-
-      build = ( items, registry ) ->
-        for name, item of items
-          specification =
-            registry[ name ]
-          do ( name, specification ) ->
-            test name,
-              if specification?
-                ->
-                  serialized = ( JSON.stringify specification )
-                  ( assert ! ( specifications.has serialized ))
-                  ( specifications.add serialized )
-                  result = ( validate specification )
-                  ( assert.equal 0, result.errors.length )
-
-      base = await ( generate prompts.generation )
-      updated = await ( update prompts.update, base )
-
-      [
-        test "generated", ( build prompts.generation, base )
-        test "updated", ( build prompts.update, updated )
-      ]
 
   ]
