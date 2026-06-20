@@ -1,6 +1,7 @@
 name: blog-platform
 nodes:
   author:
+    description: An author of the blog.
     properties:
       id:
         type: string
@@ -12,6 +13,7 @@ nodes:
     keys:
       - - email
   post:
+    description: A blog post.
     properties:
       title:
         type: string
@@ -19,6 +21,7 @@ nodes:
       - title
 connectors:
   editor:
+    description: Manages post editor assignments.
     properties:
       assigned:
         type: string
@@ -28,3 +31,4 @@ connectors:
       - from: author
         to: post
         cardinality: "*..*"
+        description: Links authors to their posts.

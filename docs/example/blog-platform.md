@@ -2,42 +2,11 @@
 
 This is an example specification for a blogging platform, detailing nodes for authors and posts, along with an editor connector to manage post assignments.
 
-```yaml
-name: blog-platform
-nodes:
-  author:
-    properties:
-      id:
-        type: string
-      email:
-        type: string
-    required:
-      - id
-      - email
-    keys:
-      - - email
-  post:
-    properties:
-      title:
-        type: string
-    required:
-      - title
-connectors:
-  editor:
-    properties:
-      assigned:
-        type: string
-    required:
-      - assigned
-    connections:
-      - from: author
-        to: post
-        cardinality: "*..*"
-```
-
 ## Nodes
 
 ### author
+
+An author of the blog.
 
 | Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -49,6 +18,8 @@ connectors:
 
 ### post
 
+A blog post.
+
 | Property | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `title` | `string` | Yes |  |
@@ -57,7 +28,9 @@ connectors:
 
 ### editor
 
-Connects **author** to **post** with cardinality `*..*`.
+Manages post editor assignments.
+
+Connects **author** to **post** with cardinality `*..*`. Links authors to their posts.
 
 #### Properties
 

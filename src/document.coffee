@@ -46,6 +46,9 @@ renderNodes = ( nodes ) ->
     node = nodes[name]
     lines.push ""
     lines.push "### #{name}"
+    if node.description?
+      lines.push ""
+      lines.push node.description
     lines.push ""
     lines.push ( renderPropertiesTable node.properties, node.required )
 
@@ -67,13 +70,21 @@ renderConnectors = ( connectors ) ->
     connector = connectors[name]
     lines.push ""
     lines.push "### #{name}"
+    if connector.description?
+      lines.push ""
+      lines.push connector.description
 
     if connector.connections? && connector.connections.length > 0
       lines.push ""
       for connection in connector.connections
+        desc =
+          if connection.description?
+            " " + connection.description
+          else
+            ""
         text =
           "Connects **#{connection.from}** to **#{connection.to}** " +
-          "with cardinality `#{connection.cardinality}`."
+          "with cardinality `#{connection.cardinality}`.#{desc}"
         lines.push text
 
     hasProps =

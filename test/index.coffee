@@ -45,13 +45,17 @@ do ->
     test "generates markdown documentation for a valid specification", ->
       markdown = ( document scenarios["valid spec"] )
       ( assert.equal true, ( markdown.includes "# Blog Platform" ) )
-      ( assert.equal true, ( markdown.includes "### author" ) )
+      ( assert.equal true, ( markdown.includes "An author of the blog." ) )
+      ( assert.equal true, ( markdown.includes "A blog post." ) )
+      expectedDesc =
+        "Manages post editor assignments."
+      ( assert.equal true, ( markdown.includes expectedDesc ) )
       expectedTable =
         "| `email` | `string` | Yes |"
       ( assert.equal true, ( markdown.includes expectedTable ) )
-      ( assert.equal true, ( markdown.includes "### editor" ) )
       expectedConnection =
-        "Connects **author** to **post** with cardinality `*..*`."
+        "Connects **author** to **post** with cardinality `*..*`. " +
+        "Links authors to their posts."
       ( assert.equal true, ( markdown.includes expectedConnection ) )
 
   ]

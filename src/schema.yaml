@@ -11,6 +11,8 @@ properties:
     additionalProperties:
       type: object
       properties:
+        description:
+          type: string
         properties:
           type: object
           description: Standard JSON Schema property definitions.
@@ -34,6 +36,8 @@ properties:
     additionalProperties:
       type: object
       properties:
+        description:
+          type: string
         properties:
           type: object
           description: Standard JSON Schema property definitions.
@@ -48,6 +52,8 @@ properties:
           items:
             type: object
             properties:
+              description:
+                type: string
               from:
                 type: string
               to:
