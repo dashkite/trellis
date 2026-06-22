@@ -99,7 +99,7 @@ Standard JSON Schema property definitions for the node.
 | Name | Value |
 | --- | --- |
 | Type | Object |
-| Additional Properties | Type: Object |
+| Additional Properties | [JSON Schema](http://json-schema.org/draft-07/schema#) |
 
 Required (Nodes Entry)
 ----------------------
@@ -176,7 +176,7 @@ Standard JSON Schema property definitions for the connector.
 | Name | Value |
 | --- | --- |
 | Type | Object |
-| Additional Properties | Type: Object |
+| Additional Properties | [JSON Schema](http://json-schema.org/draft-07/schema#) |
 
 Required (Connectors Entry)
 ---------------------------
