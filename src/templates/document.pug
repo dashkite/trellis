@@ -1,0 +1,75 @@
+h1= spec.name
+
+if spec.nodes && spec.nodes.length > 0
+  h2 Nodes
+  each node in spec.nodes
+    h3= node.name
+    if node.description
+      p= node.description
+    
+    if node.properties && node.properties.length > 0
+      table
+        thead
+          tr
+            th Property
+            th Type
+            th Required
+            th Description
+        tbody
+          each prop in node.properties
+            tr
+              td
+                code= prop.name
+              td
+                code= prop.type
+              td= prop.required
+              td= prop.description
+    else
+      p This node has no properties.
+
+    if node.keys && node.keys.length > 0
+      p
+        strong Keys:
+      ul
+        each keyGroup in node.keys
+          li
+            code= keyGroup.join(', ')
+
+if spec.connectors && spec.connectors.length > 0
+  h2 Connectors
+  each connector in spec.connectors
+    h3= connector.name
+    if connector.description
+      p= connector.description
+
+    if connector.connections && connector.connections.length > 0
+      each connection in connector.connections
+        p
+          | Connects 
+          strong= connection.from
+          |  to 
+          strong= connection.to
+          |  with cardinality 
+          code= connection.cardinality
+          | .
+          if connection.description
+            |  #{connection.description}
+
+    if connector.properties && connector.properties.length > 0
+      h4 Properties
+      table
+        thead
+          tr
+            th Property
+            th Type
+            th Required
+            th Description
+        tbody
+          each prop in connector.properties
+            tr
+              td
+                code= prop.name
+              td
+                code= prop.type
+              td= prop.required
+              td= prop.description

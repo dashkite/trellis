@@ -1,11 +1,18 @@
 presets:
   - "@dashkite/genie-yaml"
   - "@dashkite/genie-schema"
+  - "@dashkite/genie-pug"
 
 coffee:
   targets:
     - node
     - browser
+
+pug:
+  targets:
+    node:
+      - preset: js
+        glob: "src/**/*.pug"
 
 yaml:
   targets:
