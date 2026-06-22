@@ -1,5 +1,6 @@
 presets:
   - "@dashkite/genie-yaml"
+  - "@dashkite/genie-schema"
 
 coffee:
   targets:

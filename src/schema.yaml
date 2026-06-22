@@ -1,25 +1,32 @@
 $schema: http://json-schema.org/draft-07/schema#
-title: TrellisSchema
+title: Trellis Schema
+description: Trellis is a minimal, normalized graph schema format optimized for LLMs and deterministic natural language translation.
 type: object
 properties:
   $schema:
     type: string
+    description: The JSON Schema URI referencing the schema definition version.
   name:
     type: string
+    description: The unique name of the specification.
   nodes:
     type: object
+    description: Map of Node definitions, representing the entity types in the schema.
     additionalProperties:
+      description: A definition of an entity type.
       type: object
       properties:
         description:
           type: string
+          description: A human-readable description of the node type.
         properties:
           type: object
-          description: Standard JSON Schema property definitions.
+          description: Standard JSON Schema property definitions for the node.
           additionalProperties:
             type: object
         required:
           type: array
+          description: List of property names that must be defined for each instance of this node.
           items:
             type: string
         keys:
@@ -33,33 +40,43 @@ properties:
         - properties
   connectors:
     type: object
+    description: Map of Connector definitions, representing the relationship types in the schema.
     additionalProperties:
+      description: A definition of a relationship type.
       type: object
       properties:
         description:
           type: string
+          description: A human-readable description of the connector type.
         properties:
           type: object
-          description: Standard JSON Schema property definitions.
+          description: Standard JSON Schema property definitions for the connector.
           additionalProperties:
             type: object
         required:
           type: array
+          description: List of property names that must be defined for each instance of this connector.
           items:
             type: string
         connections:
           type: array
+          description: List of directed connection rules that this connector establishes.
           items:
+            description: A directed connection rule between two node types.
             type: object
             properties:
               description:
                 type: string
+                description: A human-readable description of the connection rule.
               from:
                 type: string
+                description: The source node type of the connection.
               to:
                 type: string
+                description: The target node type of the connection.
               cardinality:
                 type: string
+                description: The cardinality of the connection (e.g. '1', '*', '0..*', '1..*').
                 pattern: '^(\*|\+|\?|\d+)(\.\.(\*|\+|\?|\d+))?$'
             required:
               - from

@@ -45,6 +45,9 @@ importers:
       '@dashkite/genie-release':
         specifier: ^0.5.0
         version: 0.5.16
+      '@dashkite/genie-schema':
+        specifier: link:../genie-schema
+        version: link:../genie-schema
       '@dashkite/genie-watch':
         specifier: ^0.5.0
         version: 0.5.0(@aws-sdk/credential-provider-node@3.529.0)
