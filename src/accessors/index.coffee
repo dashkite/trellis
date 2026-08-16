@@ -56,12 +56,6 @@ getNodeSchema = ( spec, type ) ->
     delete schema.keys
     schema
 
-getMediaType = ( spec, type ) ->
-  domain = spec.authority ? "dashkite.com"
-  version = spec.version ? "1.0.0"
-  "application/vnd.#{domain}.#{type.toLowerCase()}+json;" +
-    "charset=utf8;version=#{version}"
-
 export {
   nodes
   node
@@ -72,5 +66,4 @@ export {
   nodeTypeFromPlural
   traversalEndType
   getNodeSchema
-  getMediaType
 }
